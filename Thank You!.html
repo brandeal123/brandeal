@@ -1,0 +1,151 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="HandheldFriendly" content="true" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.jotfor.ms//stylebuilder/default.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.jotfor.ms//stylebuilder/203134830258450.css" />
+    <style type="text/css">
+      #footer {
+        text-align: left;
+        margin: -35px auto 0;
+        font-size: 14px;
+        width: 100%;
+      }
+
+      #footer > div {
+        box-shadow: 0 4px 4px -1px rgba(0,0,0,0.1);
+        background-color: #fff;
+        padding: 12px 15px;
+        overflow: hidden;
+      }
+
+      #footer > div > div { padding: 10px 0 10px 5px }
+    </style>
+    <title>Thank You!</title>
+  </head>
+  <body class="thankyouMode">
+    <div class="jfForm-wrapper">
+      <div class="jfForm-backgroundContainer">
+        <div class="jfForm-videoBg">
+          <!-- HTML5 Video -->
+          <video autoplay="" loop="" id="video-background" muted="" style="display: none;">
+            <source src="" type="video/mp4">
+          </video>
+          <!-- YouTube Video -->
+          <div class="jfFormVideoBg-foreground" style="display: none;">
+            <iframe src="" frameborder="0" allowfullscreen=""></iframe>
+          </div>
+        </div>
+      </div>
+      <div class="jfForm-backgroundOverlay"></div>
+      <div class="jfThankYou-wrapper">
+        <div class="jfThankYou">
+          <div class="jfThankYou-imageWrapper">
+            <svg id="jfThankYou-type-svg" class="jfThankYou-image" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" style="display: none">
+              <circle class="jfThankYou-image-circle" cx="26" cy="26" r="25" fill="none"/>
+              <path class="jfThankYou-image-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+            </svg>
+            <img id="jfThankYou-type-image" class="jfThankYou-image" src="https://www.jotform.com//cardforms/assets/icons/icon-sets/default/other-CheckMark.860.svg" style="display: none;" />
+            <h1 class="jfThankYou-header form-header">
+              Thank You!
+            </h1>
+            <div class="jfThankYou-description form-subHeader">
+              Your order has been received! you will reveive confirmation email soon.
+            </div>
+            <div class="jfThankYou-submLink"></div>
+            <div class="jfThankYou-buttonWrapper" style="display: none;">
+              <button class="jfThankYou-button" id="jfCard-welcome-start">
+                
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+</div></div>
+  </body>
+  <script type="text/javascript">
+    function sanitizeSVG(svg, isColoredIcon) {
+      if (isColoredIcon) {
+        var viewBoxFinder = new RegExp('(viewBox|enable-background)');
+        var isThereAnyViewBox = viewBoxFinder.test(svg);
+        if (isThereAnyViewBox === false) {
+          var viewBoxString = 'viewBox="0 0 32 32" preserveAspectRatio="xMinYMin meet"';
+          var fixerString = '<svg ' + viewBoxString;
+          return svg.replace(/<svg/, fixerString);
+        }
+        return svg;
+      }
+      // Pattern below is for finding out which method is used in the Line Icon SVG file
+      var fillOrStrokePattern = new RegExp('stroke="(?!none)', 'gi');
+      var coloredStroke = fillOrStrokePattern.test(svg);
+      var applyFillOrStroke = coloredStroke ? '<svg class="iconSvgStroke" fill="none" ' : '<svg class="iconSvgFill" stroke="none" ';
+      return svg.replace(/'/g, '"')
+        .replace(/(fill="|stroke=")(.+?)"/gi, '')
+        .replace(/<!--[\s\S]*?-->/g, ' ')
+        .replace(/<\?xml.*?>/, '')
+        .replace(/id="([a-z0-9\-_]+)"/gi, '')
+        .replace(/\s+/g, ' ')
+        .replace(/<svg/, applyFillOrStroke)
+        .trim();
+    }
+
+    function extractYoutubeVideoId(url) {
+      var youtubeRegex = /^.*(youtu\.be\/|vi?\/|u\/\w\/|embed\/|\?vi?=|&vi?=)([^#&?]*).*/;
+      var matches = url.match(youtubeRegex);
+      if (matches && matches.length > 2) {
+        return matches[2];
+      }
+      return url;
+    }
+
+    var imageSource = "https://www.jotform.com//cardforms/assets/icons/icon-sets/default/other-CheckMark.860.svg";
+    var sourceType = "JotFormIcon";
+    var isColoredIcon = false;
+    var videoBgContainer = document.querySelector(".jfForm-videoBg");
+    var thankYouIconSvg = document.getElementById('jfThankYou-type-svg');
+    var thankYouIconImage = document.getElementById('jfThankYou-type-image');
+    var videoType = "none";
+
+    // Video background handlings
+    if(videoType === 'youtube') {
+      var youtubeContainer = document.querySelector('.jfFormVideoBg-foreground');
+      youtubeContainer.style.display = 'block';
+    } else if (videoType === 'html5') {
+      var html5Container = document.getElementById('video-background');
+      html5Container.style.display = 'block';
+    }
+
+    if(sourceType === 'JotFormIcon') {
+      var svgContainer = document.createElement('div');
+      svgContainer.className = 'iconSvg';
+      svgContainer.setAttribute("style", "width: 100px; height: 100px; margin: 0 auto;");
+      svgContainer.innerHTML = sanitizeSVG('<?xml version="1.0" encoding="UTF-8"?><svg viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">    <!-- Generator: Sketch 45.2 (43514) - http://www.bohemiancoding.com/sketch -->    <title>Artboard</title>    <desc>Created with Sketch.</desc>    <defs></defs>    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">        <g id="Artboard" fill-rule="nonzero" fill="#fff">            <g id="CheckMark-Copy" transform="translate(2.000000, 2.000000)">                <path d="M13.6416016,27.2832031 C6.10755306,27.2832031 0,21.1756501 0,13.6416016 C0,6.10755306 6.10755306,0 13.6416016,0 C21.1756501,0 27.2832031,6.10755306 27.2832031,13.6416016 C27.2832031,21.1756501 21.1756501,27.2832031 13.6416016,27.2832031 Z M13.6416016,25.4941406 C20.1875781,25.4941406 25.4941406,20.1875781 25.4941406,13.6416016 C25.4941406,7.09562499 20.1875781,1.7890625 13.6416016,1.7890625 C7.09562499,1.7890625 1.7890625,7.09562499 1.7890625,13.6416016 C1.7890625,20.1875781 7.09562499,25.4941406 13.6416016,25.4941406 Z" id="Oval"></path>                <path d="M7.38082257,13.3792343 C7.05463794,13.0081884 6.48942084,12.971821 6.11837486,13.2980057 C5.74732887,13.6241903 5.71096155,14.1894074 6.03714618,14.5604534 L10.338802,19.4537315 C10.6928519,19.8564753 11.3192545,19.8593636 11.6770034,19.4599018 L20.9597306,9.09482674 C21.289323,8.72680449 21.2581695,8.16127606 20.8901472,7.83168365 C20.522125,7.50209123 19.9565966,7.53324476 19.6270042,7.90126701 L11.0168547,17.5153431 L7.38082257,13.3792343 Z" id="Path-2"></path>            </g>        </g>    </g></svg>', isColoredIcon);
+
+      var svgNode = svgContainer.children[0];
+      svgNode.setAttribute("style", "width: 100%; height: 90px;");
+      svgNode.setAttribute("id", "jfThankYou-type-svg");
+
+      thankYouIconSvg.replaceWith(svgContainer);
+      thankYouIconImage.style.display = 'none';
+    } else {
+      var isDefault = imageSource.indexOf('img/check-icon.png') !== -1; // :(
+      if (isDefault) {
+        thankYouIconSvg.style.display = 'inline-block';
+      } else {
+        thankYouIconImage.style.display = 'inline-block';
+      }
+    }
+    setTimeout(function() {
+      window.parent.postMessage({ action: 'submission-completed' }, '*'); 
+      window.parent.postMessage('exitFullscreen::203134830258450', '*');
+    }, 1300);
+
+   
+  </script>
+  
+</html>
